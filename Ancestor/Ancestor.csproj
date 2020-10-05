@@ -9,7 +9,7 @@
   <PropertyGroup>
     <PackageId>Ancestor</PackageId>
     <Title>Ancestor</Title>
-    <Version>0.0.4</Version>
+    <Version>0.0.5</Version>
     <Description>
       Library with Loggin and Api client used in our projects
     </Description>
