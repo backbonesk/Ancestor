@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Ancestor</PackageId>
+    <Title>Ancestor</Title>
+    <Version>0.0.4</Version>
+    <Description>
+      Library with Loggin and Api client used in our projects
+    </Description>
+    <Authors>Michal Záhradník</Authors>
+    <Company>Backbone s.r.o.</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/backbonesk/Ancestor</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Logging\" />
+    <Folder Include="ServerRepository\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Sentry" Version="2.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="publish.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
