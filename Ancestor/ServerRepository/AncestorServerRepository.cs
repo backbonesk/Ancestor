@@ -49,7 +49,7 @@ namespace Ancestor.ServerRepository
             return ParseResponse<T>(responseString);
         }
 
-        protected T Post<T>(string schema, string serverAddress, int port, string endpoint, object input = null)
+        public T Post<T>(string schema, string serverAddress, int port, string endpoint, object input = null)
         {
             return Execute<T>((
                     client, path, content) => client.PostAsync(path, content), 
@@ -57,7 +57,7 @@ namespace Ancestor.ServerRepository
                 );
         }
 
-        protected T Put<T>(string schema, string serverAddress, int port, string endpoint, object input = null)
+        public T Put<T>(string schema, string serverAddress, int port, string endpoint, object input = null)
         {
             return Execute<T>((
                     client, path, content) => client.PutAsync(path, content),
@@ -65,7 +65,7 @@ namespace Ancestor.ServerRepository
             );
         }
 
-        protected T Get<T>(string schema, string serverAddress, int port, string endpoint, object input = null)
+        public T Get<T>(string schema, string serverAddress, int port, string endpoint, object input = null)
         {
             return Execute<T>((
                     client, path, content) => client.GetAsync(path),
