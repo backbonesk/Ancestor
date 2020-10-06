@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Threading;
 using Ancestor.Extensions;
 using Sentry;
@@ -73,7 +75,7 @@ namespace Ancestor.Logging
                     Directory.CreateDirectory(_logsPath);
                 }
 
-                RemoveOldLogs();
+                CompressLogs();
 
                 File.AppendAllText($"{_logsPath}/log{DateTime.Now:yyyy-MM-dd}.txt", log + "\n");
             }
@@ -83,15 +85,35 @@ namespace Ancestor.Logging
             }
         }
 
-        private static void RemoveOldLogs()
+        private static void CompressLogs()
         {
             string[] files = Directory.GetFiles(_logsPath);
+
+            List<FileInfo> filesToZip = new List<FileInfo>();
 
             foreach (var fileName in files)
             {
                 FileInfo file = new FileInfo(fileName);
-                if (file.LastAccessTime < DateTime.Now.AddDays(-30))
-                    file.Delete();
+
+                if (file.CreationTime.Month != DateTime.Now.Month)
+                {
+                    filesToZip.Add(file);
+                }
+            }
+
+            ZipLogs(filesToZip, $"logs_{DateTime.Now:yyyy-MM-dd}.zip");
+        }
+
+        private static void ZipLogs(IEnumerable<FileInfo> files, string archiveName)
+        {
+            using var stream = File.OpenWrite(Path.Combine(_logsPath, archiveName));
+
+            using ZipArchive archive = new ZipArchive(stream, ZipArchiveMode.Create);
+            
+            foreach (var item in files)
+            {
+                archive.CreateEntryFromFile(item.FullName, item.Name, CompressionLevel.Optimal);
+                item.Delete();
             }
         }
     }
