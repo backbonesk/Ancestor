@@ -102,7 +102,7 @@ namespace Ancestor.Logging
                 }
             }
 
-            ZipLogs(filesToZip, $"logs_{DateTime.Now}{ZipFileExtension}");
+            ZipLogs(filesToZip, $"logs_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}{ZipFileExtension}");
         }
 
         private static void ZipLogs(IEnumerable<FileInfo> files, string archiveName)
