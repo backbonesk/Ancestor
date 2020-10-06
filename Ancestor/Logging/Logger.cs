@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Threading;
 using Ancestor.Extensions;
 using Sentry;
@@ -102,7 +103,10 @@ namespace Ancestor.Logging
                 }
             }
 
-            ZipLogs(filesToZip, $"logs_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}{ZipFileExtension}");
+            if (filesToZip.Any())
+            {
+                ZipLogs(filesToZip, $"logs_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}{ZipFileExtension}");
+            }
         }
 
         private static void ZipLogs(IEnumerable<FileInfo> files, string archiveName)
