@@ -112,8 +112,11 @@ namespace Ancestor.Logging
             
             foreach (var item in files)
             {
-                archive.CreateEntryFromFile(item.FullName, item.Name, CompressionLevel.Optimal);
-                item.Delete();
+                if (!item.Name.EndsWith(".zip"))
+                {
+                    archive.CreateEntryFromFile(item.FullName, item.Name, CompressionLevel.Optimal);
+                    item.Delete();
+                }
             }
         }
     }
