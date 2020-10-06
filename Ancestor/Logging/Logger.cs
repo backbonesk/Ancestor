@@ -13,7 +13,8 @@ namespace Ancestor.Logging
     {
         public static string SentryEnvironment = null;
 
-        private static string _logsPath = "./Logs";
+        private const string LogsPath = "./Logs";
+        private const string ZipFileExtension = ".zip";
 
         private static readonly ReaderWriterLock Locker = new ReaderWriterLock();
 
@@ -70,14 +71,14 @@ namespace Ancestor.Logging
             {
                 Locker.AcquireWriterLock(int.MaxValue);
 
-                if (!Directory.Exists(_logsPath))
+                if (!Directory.Exists(LogsPath))
                 {
-                    Directory.CreateDirectory(_logsPath);
+                    Directory.CreateDirectory(LogsPath);
                 }
 
                 CompressLogs();
 
-                File.AppendAllText($"{_logsPath}/log{DateTime.Now:yyyy-MM-dd}.txt", log + "\n");
+                File.AppendAllText($"{LogsPath}/log{DateTime.Now:yyyy-MM-dd}.txt", log + "\n");
             }
             finally
             {
@@ -87,7 +88,7 @@ namespace Ancestor.Logging
 
         private static void CompressLogs()
         {
-            string[] files = Directory.GetFiles(_logsPath);
+            string[] files = Directory.GetFiles(LogsPath);
 
             List<FileInfo> filesToZip = new List<FileInfo>();
 
@@ -95,28 +96,25 @@ namespace Ancestor.Logging
             {
                 FileInfo file = new FileInfo(fileName);
 
-                if (file.CreationTime.Month != DateTime.Now.Month)
+                if (file.CreationTime.Month != DateTime.Now.Month && !file.Name.EndsWith(ZipFileExtension))
                 {
                     filesToZip.Add(file);
                 }
             }
 
-            ZipLogs(filesToZip, $"logs_{DateTime.Now:yyyy-MM-dd}.zip");
+            ZipLogs(filesToZip, $"logs_{DateTime.Now}{ZipFileExtension}");
         }
 
         private static void ZipLogs(IEnumerable<FileInfo> files, string archiveName)
         {
-            using var stream = File.OpenWrite(Path.Combine(_logsPath, archiveName));
+            using var stream = File.OpenWrite(Path.Combine(LogsPath, archiveName));
 
             using ZipArchive archive = new ZipArchive(stream, ZipArchiveMode.Create);
             
             foreach (var item in files)
             {
-                if (!item.Name.EndsWith(".zip"))
-                {
-                    archive.CreateEntryFromFile(item.FullName, item.Name, CompressionLevel.Optimal);
-                    item.Delete();
-                }
+                archive.CreateEntryFromFile(item.FullName, item.Name, CompressionLevel.Optimal);
+                item.Delete();
             }
         }
     }
