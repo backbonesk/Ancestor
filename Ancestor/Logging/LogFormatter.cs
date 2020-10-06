@@ -1,4 +1,5 @@
 ﻿using System;
+using Ancestor.Extensions;
 using Sentry.Protocol;
 
 namespace Ancestor.Logging
