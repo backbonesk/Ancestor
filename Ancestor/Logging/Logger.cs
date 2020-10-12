@@ -13,7 +13,7 @@ namespace Ancestor.Logging
     public static class Logger
     {
         public static string SentryEnvironment = null;
-
+        public static string Identifier = null;
         private const string LogsPath = "./Logs";
         private const string ZipFileExtension = ".zip";
 
@@ -79,7 +79,7 @@ namespace Ancestor.Logging
 
                 CompressLogs();
 
-                File.AppendAllText($"{LogsPath}/log{DateTime.Now:yyyy-MM-dd}.txt", log + "\n");
+                File.AppendAllText($"{LogsPath}/log{DateTime.Now:yyyy-MM-dd}_{Identifier ?? Guid.NewGuid().ToString()}.txt", log + "\n");
             }
             finally
             {
