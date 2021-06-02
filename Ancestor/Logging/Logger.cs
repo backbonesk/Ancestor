@@ -26,16 +26,16 @@ namespace Ancestor.Logging
             Console.Error.WriteLine(log);
         }
 
-        public static void LogToErrorOutput(object value, SentryLevel logLevel = SentryLevel.Error)
+        public static void LogToErrorOutput(object value, SentryLevel logLevel = SentryLevel.Error, bool format = true)
         {
-            var log = LogFormatter.Format(value.ToJson(), logLevel);
+            var log = format ? LogFormatter.Format(value.ToJson(), logLevel) : (value?.ToString() ?? "null");
             WriteToFile(log);
             Console.Error.WriteLine(log);
         }
 
-        public static void LogToStandardOutput(object value, SentryLevel logLevel = SentryLevel.Info)
+        public static void LogToStandardOutput(object value, SentryLevel logLevel = SentryLevel.Info, bool format = true)
         {
-            var log = LogFormatter.Format(value.ToJson(), logLevel);
+            var log = format ? LogFormatter.Format(value.ToJson(), logLevel) : (value?.ToString() ?? "null");
             WriteToFile(log);
             Console.WriteLine(log);
         }
