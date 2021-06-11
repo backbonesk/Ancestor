@@ -36,7 +36,12 @@ namespace Ancestor.Extensions
                 return settings;
             };
 
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location));
+            var currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location);
+
+            if (currentDirectory != null)
+            {
+                Directory.SetCurrentDirectory(currentDirectory);
+            }
         }
 
         public static bool IsEnvironmentVariableSet(string key)
