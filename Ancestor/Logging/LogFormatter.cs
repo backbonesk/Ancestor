@@ -17,7 +17,7 @@ namespace Ancestor.Logging
                 LogLevel = logLevel
             }.ToJson();
         }
-        public static string Format(String log, SentryLevel logLevel = SentryLevel.Error)
+        public static string Format(object log, SentryLevel logLevel = SentryLevel.Error)
         {
             return new
             {
