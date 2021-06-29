@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using Ancestor.Extensions;
 using Sentry;
@@ -79,7 +80,7 @@ namespace Ancestor.Logging
 
                 CompressLogs();
 
-                File.AppendAllText($"{LogsPath}/log{DateTime.Now:yyyy-MM-dd}_{Identifier}.txt", log + "\n");
+                File.AppendAllText($"{LogsPath}/log{DateTime.Now:yyyy-MM-dd}_{Identifier}.txt", log + "\n", Encoding.UTF8);
             }
             finally
             {
