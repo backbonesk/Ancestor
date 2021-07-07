@@ -9,7 +9,7 @@
   <PropertyGroup>
     <PackageId>Ancestor</PackageId>
     <Title>Ancestor</Title>
-    <Version>0.0.19</Version>
+    <Version>0.0.20</Version>
     <Description>Library with Loggin and Api client used in our projects</Description>
     <Authors>Michal Záhradník</Authors>
     <Company>Backbone s.r.o.</Company>
