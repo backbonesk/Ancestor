@@ -8,12 +8,29 @@ namespace Ancestor.Extensions
     {
         public static void WithAllInnerExceptions(this Exception exception, Action<Exception> execute)
         {
-            var innerExceptionTemp = exception.InnerException;
-
-            while (innerExceptionTemp != null)
+            if (exception is AggregateException aggregateException)
             {
-                execute(innerExceptionTemp);
-                innerExceptionTemp = innerExceptionTemp.InnerException;
+                foreach (var innerException in aggregateException.InnerExceptions)
+                {
+                    WithAllInnerExceptions(innerException, execute);
+                }
+            }
+            else
+            {
+                var innerExceptionTemp = exception.InnerException;
+
+                while (innerExceptionTemp != null)
+                {
+                    if (innerExceptionTemp is AggregateException aggregateInnerException)
+                    {
+                        WithAllInnerExceptions(aggregateInnerException, execute);
+                    }
+                    else
+                    {
+                        execute(innerExceptionTemp);
+                        innerExceptionTemp = innerExceptionTemp.InnerException;
+                    }
+                }
             }
         }
 
