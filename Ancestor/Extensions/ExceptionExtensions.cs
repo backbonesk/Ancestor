@@ -24,6 +24,7 @@ namespace Ancestor.Extensions
                     if (innerExceptionTemp is AggregateException aggregateInnerException)
                     {
                         WithAllInnerExceptions(aggregateInnerException, execute);
+                        innerExceptionTemp = null;
                     }
                     else
                     {
