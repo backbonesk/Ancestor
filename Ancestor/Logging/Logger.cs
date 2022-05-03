@@ -5,7 +5,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Ancestor.Extensions;
 using Sentry;
 using Sentry.Protocol;
 
@@ -18,7 +17,7 @@ namespace Ancestor.Logging
         private const string LogsPath = "./Logs";
         private const string ZipFileExtension = ".zip";
 
-        private static readonly ReaderWriterLock Locker = new ReaderWriterLock();
+        private static readonly Semaphore Semaphore = new Semaphore(1, 1);
 
         public static void LogToErrorOutput(Exception exception, SentryLevel logLevel = SentryLevel.Error)
         {
@@ -71,7 +70,7 @@ namespace Ancestor.Logging
         {
             try
             {
-                Locker.AcquireWriterLock(int.MaxValue);
+                Semaphore.WaitOne(3000);
 
                 if (!Directory.Exists(LogsPath))
                 {
@@ -84,7 +83,7 @@ namespace Ancestor.Logging
             }
             finally
             {
-                Locker.ReleaseWriterLock();
+                Semaphore.Release();
             }
         }
 
