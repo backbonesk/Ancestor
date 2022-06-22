@@ -6,24 +6,26 @@ namespace Ancestor.Extensions
 {
     public static class ExceptionExtensions
     {
-        public static void WithAllInnerExceptions(this Exception exception, Action<Exception> execute)
+        public static void WithAllExceptions(this Exception exception, Action<Exception> execute)
         {
             if (exception is AggregateException aggregateException)
             {
                 foreach (var innerException in aggregateException.InnerExceptions)
                 {
-                    WithAllInnerExceptions(innerException, execute);
+                    WithAllExceptions(innerException, execute);
                 }
             }
             else
             {
+                execute(exception);
+
                 var innerExceptionTemp = exception.InnerException;
 
                 while (innerExceptionTemp != null)
                 {
                     if (innerExceptionTemp is AggregateException aggregateInnerException)
                     {
-                        WithAllInnerExceptions(aggregateInnerException, execute);
+                        WithAllExceptions(aggregateInnerException, execute);
                         innerExceptionTemp = null;
                     }
                     else
@@ -41,7 +43,7 @@ namespace Ancestor.Extensions
 
             var errors = new List<string> { exception.Message };
 
-            exception.WithAllInnerExceptions(innerException =>
+            exception.WithAllExceptions(innerException =>
             {
                 if (innerException.Message != null)
                 {

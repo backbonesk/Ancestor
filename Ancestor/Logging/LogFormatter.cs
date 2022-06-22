@@ -15,7 +15,7 @@ namespace Ancestor.Logging
             {
                 var i = 0;
                 
-                exception.WithAllInnerExceptions(x =>
+                exception.WithAllExceptions(x =>
                 {
                     foreach (var key in x.Data.Keys)
                     { 
