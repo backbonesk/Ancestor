@@ -83,8 +83,7 @@ namespace Ancestor.Logging
 
                     CompressLogs();
 
-                    File.AppendAllText($"{LogsPath}/log{DateTime.Now:yyyy-MM-dd}_{Identifier}.txt", log + "\n",
-                        Encoding.UTF8);
+                    File.AppendAllTextAsync($"{LogsPath}/log{DateTime.Now:yyyy-MM-dd}_{Identifier}.txt", log + "\n", Encoding.UTF8).Wait(1000);
                 }
             }
             catch (Exception e)
