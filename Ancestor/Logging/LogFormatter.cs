@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Ancestor.Extensions;
+using Newtonsoft.Json;
 using Sentry.Protocol;
 
 namespace Ancestor.Logging
@@ -38,7 +39,7 @@ namespace Ancestor.Logging
                 exception?.StackTrace,
                 data,
                 LogLevel = logLevel
-            }.ToJson();
+            }.ToJson(Formatting.None);
         }
         public static string Format(object log, SentryLevel logLevel = SentryLevel.Error)
         {
@@ -47,7 +48,7 @@ namespace Ancestor.Logging
                 CreatedAt = DateTime.Now,
                 Log = log,
                 LogLevel = logLevel
-            }.ToJson();
+            }.ToJson(Formatting.None);
         }
     }
 }

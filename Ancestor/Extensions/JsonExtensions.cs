@@ -4,9 +4,9 @@ namespace Ancestor.Extensions
 {
     public static class JsonExtensions
     {
-        public static string ToJson(this object input)
+        public static string ToJson(this object input, Formatting formatting = Formatting.Indented)
         {
-            return JsonConvert.SerializeObject(input, Formatting.Indented);
+            return JsonConvert.SerializeObject(input, formatting);
         }
 
         public static T FromJson<T>(this string input)

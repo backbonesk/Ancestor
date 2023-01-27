@@ -68,22 +68,35 @@ namespace Ancestor.Logging
 
         private static void WriteToFile(string log)
         {
+            bool hasHandle = false;
+
             try
             {
-                Semaphore.WaitOne(3000);
+                hasHandle = Semaphore.WaitOne(1000);
 
-                if (!Directory.Exists(LogsPath))
+                if (hasHandle)
                 {
-                    Directory.CreateDirectory(LogsPath);
+                    if (!Directory.Exists(LogsPath))
+                    {
+                        Directory.CreateDirectory(LogsPath);
+                    }
+
+                    CompressLogs();
+
+                    File.AppendAllText($"{LogsPath}/log{DateTime.Now:yyyy-MM-dd}_{Identifier}.txt", log + "\n",
+                        Encoding.UTF8);
                 }
-
-                CompressLogs();
-
-                File.AppendAllText($"{LogsPath}/log{DateTime.Now:yyyy-MM-dd}_{Identifier}.txt", log + "\n", Encoding.UTF8);
+            }
+            catch (Exception e)
+            {
+                // ignored
             }
             finally
             {
-                Semaphore.Release();
+                if (hasHandle)
+                {
+                    Semaphore.Release();
+                }
             }
         }
 
