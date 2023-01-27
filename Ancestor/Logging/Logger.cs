@@ -68,6 +68,8 @@ namespace Ancestor.Logging
 
         private static void WriteToFile(string log)
         {
+            var cancellationSource = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+
             bool hasHandle = false;
 
             try
@@ -83,7 +85,7 @@ namespace Ancestor.Logging
 
                     CompressLogs();
 
-                    File.AppendAllTextAsync($"{LogsPath}/log{DateTime.Now:yyyy-MM-dd}_{Identifier}.txt", log + "\n", Encoding.UTF8).Wait(1000);
+                    File.AppendAllTextAsync($"{LogsPath}/log{DateTime.Now:yyyy-MM-dd}_{Identifier}.txt", log + "\n", Encoding.UTF8, cancellationSource.Token).Wait(1000);
                 }
             }
             catch (Exception e)
