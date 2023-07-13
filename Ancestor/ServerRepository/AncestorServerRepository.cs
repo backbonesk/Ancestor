@@ -32,6 +32,8 @@ namespace Ancestor.ServerRepository
                 }
             }
 
+            var timeout = httpClient.Timeout;
+
             StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = method(httpClient, path, content).Result;
