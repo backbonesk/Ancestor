@@ -9,7 +9,7 @@
   <PropertyGroup>
     <PackageId>Ancestor</PackageId>
     <Title>Ancestor</Title>
-    <Version>0.0.29</Version>
+    <Version>0.0.30</Version>
     <Description>Library with Loggin and Api client used in our projects</Description>
     <Authors>Michal Záhradník</Authors>
     <Company>Backbone s.r.o.</Company>
@@ -19,13 +19,12 @@
 
   <ItemGroup>
     <Folder Include="Logging\" />
-    <Folder Include="ServerRepository\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.16" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Sentry" Version="2.1.6" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Sentry" Version="3.34.0" />
   </ItemGroup>
 
   <ItemGroup>

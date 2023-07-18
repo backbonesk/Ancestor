@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Ancestor.Extensions;
 using Newtonsoft.Json;
-using Sentry.Protocol;
+using Sentry;
 
 namespace Ancestor.Logging
 {

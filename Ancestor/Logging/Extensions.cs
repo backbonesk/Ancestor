@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Sentry.Protocol;
+using Sentry;
 
 namespace Ancestor.Logging
 {
