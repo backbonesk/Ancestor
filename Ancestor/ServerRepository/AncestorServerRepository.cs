@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +13,14 @@ namespace Ancestor.ServerRepository
         public abstract Dictionary<string, string> ProvideHeaders(string endpoint, string body);
         public abstract T ParseResponse<T>(string response);
 
-        private T Execute<T>(Func<HttpClient, string, StringContent, Task<HttpResponseMessage>> method, string schema, string serverAddress, int port, string endpoint, object input = null)
+        private T Execute<T>(Func<HttpClient, string, StringContent, Task<HttpResponseMessage>> method, string schema, string serverAddress, int port, string endpoint, object input = null, Dictionary<string, string> query = null)
         {
             var uri = new UriBuilder(schema, serverAddress, port, endpoint);
+
+            if (query?.Any() == true)
+            {
+                uri.Query = "?" + string.Join("&", query.Select(x => x.Key + "=" + x.Value));
+            }
 
             var path = uri.Uri.ToString();
 
@@ -68,11 +74,11 @@ namespace Ancestor.ServerRepository
             );
         }
 
-        public T Get<T>(string schema, string serverAddress, int port, string endpoint, object input = null)
+        public T Get<T>(string schema, string serverAddress, int port, string endpoint, object input = null, Dictionary<string, string> query = null)
         {
             return Execute<T>((
                     client, path, content) => client.GetAsync(path),
-                schema, serverAddress, port, endpoint, input
+                schema, serverAddress, port, endpoint, input, query
             );
         }
     }
