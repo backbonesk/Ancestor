@@ -37,9 +37,9 @@ namespace Ancestor.Extensions
             }
         }
 
-        public static string GetFullMessage(this Exception exception, string startMessage = "Error occured: ")
+        public static string GetFullMessage(this Exception exception)
         {
-            var sb = new StringBuilder(startMessage ?? "");
+            var sb = new StringBuilder();
             var errors = new List<string>();
 
             exception.WithAllExceptions(innerException =>
