@@ -57,11 +57,10 @@ namespace Ancestor.Logging
         {
             if (SentrySdk.IsEnabled)
             {
-                SentrySdk.WithScope(scope =>
+                SentrySdk.CaptureException(exception, scope =>
                 {
                     scope.Environment = SentryEnvironment;
                     scope.Level = logLevel;
-                    SentrySdk.CaptureException(exception);
                 });
             }
         }
