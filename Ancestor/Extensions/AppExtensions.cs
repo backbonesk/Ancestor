@@ -20,7 +20,7 @@ namespace Ancestor.Extensions
             }
         };
 
-        public static void SetDefaults()
+        public static void SetDefaults<T>()
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo;
 
@@ -36,7 +36,7 @@ namespace Ancestor.Extensions
                 return settings;
             };
 
-            var currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location);
+            var currentDirectory = Path.GetDirectoryName(typeof(T).Assembly?.Location);
 
             if (currentDirectory != null)
             {
